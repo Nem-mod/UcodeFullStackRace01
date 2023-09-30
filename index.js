@@ -36,9 +36,10 @@ app.use(session({
 app.get('/', sendLogInPage)
 app.get('/registration', sendRegisterPage)
 
-//Registration
-app.post('/register', register)
 
+app.get('/registration', (req, res) => {
+    res.render('registration_page/index')
+})
 
 io.on('connection', (socket) => {
     console.log('a user connected');
@@ -50,3 +51,4 @@ io.on('connection', (socket) => {
 server.listen(PORT, () => {
     console.log(`Node app started on port http://localhost:${PORT}`);
 })
+
