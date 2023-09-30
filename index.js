@@ -6,6 +6,8 @@ import path from "path";
 import expressThymeleaf from 'express-thymeleaf';
 import {TemplateEngine} from 'thymeleaf';
 import session from "express-session";
+import {sendLogInPage, sendRegisterPage} from "./controllers/ViewController.js";
+import {register} from "./controllers/AuthController.js";
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -20,30 +22,23 @@ app.engine('html', expressThymeleaf(templateEngine));
 app.set('view engine', 'html');
 app.set('views', __dirname);
 app.use(express.json());
-app.use(cors())
+app.use(express.urlencoded({extended: true}));
 
 
-app.use(
-    session({
-        name: 'anech',
-        secret: 'anech',
-        resave: false,
-        saveUninitialized: true,
-        cookie: {
-            maxAge: 100000
-        }
-    })
-);
+app.use(session({
+    name: 'anech', secret: 'anech', resave: false, saveUninitialized: true, cookie: {
+        maxAge: 100000
+    }
+}));
 
 
-app.get('/', (req, res) => {
-    res.render('login_page/index')
-})
+// Render page controllers
+app.get('/', sendLogInPage)
+app.get('/registration', sendRegisterPage)
 
+//Registration
+app.post('/register', register)
 
-app.get('/registration', (req, res) => {
-    res.render('registration_page/index')
-})
 
 io.on('connection', (socket) => {
     console.log('a user connected');
@@ -55,4 +50,3 @@ io.on('connection', (socket) => {
 server.listen(PORT, () => {
     console.log(`Node app started on port http://localhost:${PORT}`);
 })
-
