@@ -1,6 +1,5 @@
 import express from 'express'
 import http from 'http'
-import cors from 'cors'
 import {Server} from 'socket.io'
 import path from "path";
 import expressThymeleaf from 'express-thymeleaf';
@@ -37,9 +36,8 @@ app.get('/', sendLogInPage)
 app.get('/registration', sendRegisterPage)
 
 
-app.get('/registration', (req, res) => {
-    res.render('registration_page/index')
-})
+app.post('/register', register)
+
 
 io.on('connection', (socket) => {
     console.log('a user connected');
