@@ -1,7 +1,7 @@
 import express from 'express'
 import http from 'http'
 import cors from 'cors'
-import { Server } from 'socket.io'
+import {Server} from 'socket.io'
 import path from "path";
 import expressThymeleaf from 'express-thymeleaf';
 import {TemplateEngine} from 'thymeleaf';
@@ -34,12 +34,6 @@ app.use(
         }
     })
 );
-
-app.use((err, req, res) => {
-    return res.status(500).json({
-        message: "Internal server error"
-    });
-});
 
 
 app.get('/', (req, res) => {
