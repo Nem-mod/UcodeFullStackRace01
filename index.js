@@ -40,6 +40,10 @@ app.get('/', (req, res) => {
     res.render('login_page/index')
 })
 
+app.get('/style.css', (req, res) => {
+    res.sendFile(path.join(path.resolve() + '/views/css/style.css'));
+})
+
 
 app.get('/registration', (req, res) => {
     res.render('registration_page/index')
