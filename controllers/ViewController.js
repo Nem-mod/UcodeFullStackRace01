@@ -1,7 +1,7 @@
 export const sendRegisterPage = async  (req, res) => {
-    res.render('registration_page/index')
+    res.render('html/registration_page')
 }
 
 export const sendLogInPage = async (req, res) => {
-    res.render('login_page/index')
+    res.render('html/login_page')
 }

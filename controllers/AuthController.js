@@ -17,7 +17,7 @@ export const register = async (req, res) => {
 
         console.log(doc)
         // TODO: Render main page
-        res.render('registration_page/index')
+        res.render('html/login_page.html')
 
     } catch (e) {
         res.status(400).json({

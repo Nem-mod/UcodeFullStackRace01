@@ -1,0 +1,60 @@
+/** {*/
+/*    outline: 1px solid green;*/
+/*}*/
+
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap');
+
+:root {
+    --white-color: #F5F5F5;
+    --black-color: #212121;
+    --red-color: rgba(149,30,34,1);
+    --blue-color: rgba(77,138,181,1);
+    --light-grey-color: rgba(185,190,186,1);
+
+    --window-bg-color: var(--black-color);
+}
+
+body {
+    font-family: 'Lato', sans-serif;
+    background: rgb(77,21,24);
+    background: linear-gradient(45deg, rgba(77,21,24,1) 0%, rgba(149,30,34,1) 11%, rgba(185,190,186,1) 42%, rgba(77,138,181,1) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+.centered-wrp {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+}
+
+
+
+
+/** {*/
+/*    !*outline: 1px solid green;*!*/
+/*}*/
+
+/*body {*/
+/*    background: rgb(230,47,137);*/
+/*    background: linear-gradient(45deg, rgba(230,47,137,1) 0%, rgba(9,9,121,1) 35%, rgba(145,86,226,1) 100%);*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*    justify-content: center;*/
+/*    height: 100vh;*/
+/*    margin: 0;*/
+/*    padding: 0;*/
+/*}*/
+
+/*.centered-wrp {*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*    justify-content: center;*/
+/*    height: 20vh;*/
+/*}*/
