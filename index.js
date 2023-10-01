@@ -20,7 +20,8 @@ app.engine('html', expressThymeleaf(templateEngine));
 app.set('view engine', 'html');
 app.set('views', __dirname);
 app.use(express.json());
-app.use(cors())
+app.use(cors());
+app.use(express.static('views'));
 
 
 app.use(
@@ -40,9 +41,9 @@ app.get('/', (req, res) => {
     res.render('login_page/index')
 })
 
-app.get('/style.css', (req, res) => {
-    res.sendFile(path.join(path.resolve() + '/views/css/style.css'));
-})
+// app.get('/style.css', (req, res) => {
+//     res.sendFile(path.join(path.resolve() + '/views/css/style.css'));
+// })
 
 
 app.get('/registration', (req, res) => {
