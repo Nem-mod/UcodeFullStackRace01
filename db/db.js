@@ -3,7 +3,7 @@ import * as fs from 'fs/promises';
 
 async function loadConfig() {
     try {
-        const configData = await fs.readFile('./config.json', 'utf8');
+        const configData = await fs.readFile('../config.json', 'utf8');
         const config = JSON.parse(configData);
         return config;
     } catch (error) {

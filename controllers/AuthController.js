@@ -13,7 +13,7 @@ export const register = async (req, res) => {
         }
 
         const doc = new UserModel(login, psw1, email)
-        // TODO: insert user in database
+        doc.save()
 
         console.log(doc)
         // TODO: Render main page
