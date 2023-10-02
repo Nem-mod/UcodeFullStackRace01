@@ -8,7 +8,13 @@
     <title>Main Page</title>
 </head>
 <body>
-  <button>Create Game</button>
-  <button>Connect</button>
+  <div id="token"></div>
+  <button type="submit" id="createRoomBtn">Create Game</button>
+  <form id="connectForm">
+      <input type="text" id="inputtedToken">
+      <button type="submit">Connect</button>
+  </form>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="../js/mainPageScripts.js"></script>
 </body>
 </html>

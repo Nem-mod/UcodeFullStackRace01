@@ -7,6 +7,7 @@ import {TemplateEngine} from 'thymeleaf';
 import session from "express-session";
 import {sendLogInPage, sendMainPage, sendRegisterPage} from "./controllers/ViewController.js";
 import {login, register} from "./controllers/AuthController.js";
+import {createGame} from "./controllers/GameController.js";
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -34,12 +35,32 @@ app.use(session({
 app.get('/', sendLogInPage)
 app.get('/registration', sendRegisterPage)
 app.get('/main', sendMainPage)
+app.get('/createGameToken', createGame)
+
 
 app.post('/register', register)
 app.post('/login', login)
 
+
+let rooms = []
+
 io.on('connection', (socket) => {
-    console.log('a user connected');
+    console.log("connected")
+    socket.on('connectToGame', (data) => {
+        console.log(`User connected ${data}`)
+        let roomId = `room:${data.roomToken}`;
+        console.log(`User connected ${roomId}`)
+        socket.join(roomId)
+        socket.broadcast.to(roomId).emit('hi')
+    })
+
+    socket.on('createRoom', (data) => {
+        console.log(`User connected ${data}`)
+        let roomId = `room:${data.roomToken}`;
+        rooms.push(roomId);
+        socket.join(roomId);
+        console.log(rooms, roomId)
+    })
 });
 
 
