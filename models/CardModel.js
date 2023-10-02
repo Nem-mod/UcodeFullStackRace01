@@ -13,10 +13,10 @@ export class Card {
         this.card_img_url = card_img_url
     }
 
-    get_all() {
-        const connection = connect()
+    async get_all() {
+        const connection = await connect()
         let res;
-        connection.query("SELECT * FROM cards", (err, rows) => {
+        await connection.query("SELECT * FROM cards", (err, rows) => {
             if (err) throw err
             res = rows
         })

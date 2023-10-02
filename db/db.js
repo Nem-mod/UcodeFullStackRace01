@@ -1,4 +1,4 @@
-import {createConnection} from "mysql2";
+import {createConnection} from "mysql2/promise";
 import * as fs from 'fs/promises';
 
 async function loadConfig() {
@@ -13,4 +13,4 @@ async function loadConfig() {
 }
 const config =await loadConfig()
 
-export const connect = () =>  createConnection(config)
+export const connect = async () =>   await createConnection(config)
