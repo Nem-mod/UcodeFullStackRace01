@@ -5,8 +5,8 @@ import path from "path";
 import expressThymeleaf from 'express-thymeleaf';
 import {TemplateEngine} from 'thymeleaf';
 import session from "express-session";
-import {sendLogInPage, sendRegisterPage} from "./controllers/ViewController.js";
-import {register} from "./controllers/AuthController.js";
+import {sendLogInPage, sendMainPage, sendRegisterPage} from "./controllers/ViewController.js";
+import {login, register} from "./controllers/AuthController.js";
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -21,6 +21,7 @@ app.set('view engine', 'html');
 app.set('views', path.join(path.resolve(), `static`));
 app.use(express.json());
 app.use(express.static(path.join(path.resolve(), '/static')));
+app.use(express.urlencoded({extended: true}));
 
 app.use(session({
     name: 'anech', secret: 'anech', resave: false, saveUninitialized: true, cookie: {
@@ -32,10 +33,10 @@ app.use(session({
 // Render page controllers
 app.get('/', sendLogInPage)
 app.get('/registration', sendRegisterPage)
-
+app.get('/main', sendMainPage)
 
 app.post('/register', register)
-
+app.post('/login', login)
 
 io.on('connection', (socket) => {
     console.log('a user connected');
