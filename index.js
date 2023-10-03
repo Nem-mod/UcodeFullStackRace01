@@ -5,7 +5,7 @@ import path from "path";
 import expressThymeleaf from 'express-thymeleaf';
 import {TemplateEngine} from 'thymeleaf';
 import session from "express-session";
-import {sendLogInPage, sendRegisterPage} from "./controllers/ViewController.js";
+import {sendLogInPage, sendMainPage, sendRegisterPage} from "./controllers/ViewController.js";
 import {register} from "./controllers/AuthController.js";
 
 const PORT = process.env.PORT || 3001;
@@ -30,11 +30,11 @@ app.use(session({
 
 
 // Render page controllers
-app.get('/', sendLogInPage)
-app.get('/registration', sendRegisterPage)
+app.get('/', sendMainPage);
+app.get('/registration', sendRegisterPage);
 
 
-app.post('/register', register)
+app.post('/register', register);
 
 
 io.on('connection', (socket) => {

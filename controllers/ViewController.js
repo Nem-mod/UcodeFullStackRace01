@@ -5,3 +5,7 @@ export const sendRegisterPage = async  (req, res) => {
 export const sendLogInPage = async (req, res) => {
     res.render('html/login_page')
 }
+
+export const sendMainPage = async (req, res) => {
+    res.render('html/main');
+}
