@@ -4,6 +4,7 @@ import Hand from "../helpers/Hand.js";
 import CardZone from "../helpers/CardZone.js";
 import InteractiveHandler from "../helpers/Handlers/InteractiveHandler.js";
 import GameField from "../helpers/GameField.js";
+import SocketHandler from "../helpers/Handlers/SocketHandler.js";
 
 export default class Game extends Phaser.Scene {
     constructor() {
@@ -49,6 +50,7 @@ export default class Game extends Phaser.Scene {
         new InteractiveHandler(this);
 
         this.gameField = new GameField(self, 6);
+        this.SocketHandler = new SocketHandler(this);
     }
 
     update() {}
