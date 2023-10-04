@@ -8,7 +8,6 @@ import session from "express-session";
 import {sendLogInPage, sendMainPage, sendRegisterPage} from "./controllers/ViewController.js";
 import {login, register} from "./controllers/AuthController.js";
 import {createGame, renderStartPage} from "./controllers/GameController.js";
-import {createGame} from "./controllers/GameController.js";
 import {connect} from "./db/db.js"
 import {readFileSync} from 'fs'
 
@@ -34,7 +33,7 @@ app.use(session({
 }));
 
 // Execute the sql query files
-const connection = connect()
+const connection = await connect()
 await connection.query((readFileSync('./db/init/users.sql', 'utf-8')), (err) => {
     if (err) throw err;
 })
