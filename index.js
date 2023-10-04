@@ -8,6 +8,8 @@ import session from "express-session";
 import {sendLogInPage, sendMainPage, sendRegisterPage} from "./controllers/ViewController.js";
 import {login, register} from "./controllers/AuthController.js";
 import {createGame, renderStartPage} from "./controllers/GameController.js";
+import {connect} from "./db/db.js"
+import {readFileSync} from 'fs'
 import {Card} from "./models/CardModel.js";
 import {shuffle} from "./utils.js";
 
@@ -32,6 +34,18 @@ app.use(session({
     }
 }));
 
+// Execute the sql query files
+const connection = await connect()
+await connection.query((readFileSync('./db/init/users.sql', 'utf-8')), (err) => {
+    if (err) throw err;
+})
+await connection.query((readFileSync('./db/init/cards.sql', 'utf-8')), (err) => {
+    if (err) throw err;
+})
+await connection.query((readFileSync('./db/init/actionCards.sql', 'utf-8')), (err) => {
+    if (err) throw err;
+})
+connection.end()
 
 // Render page controllers
 app.get('/', sendLogInPage)
@@ -56,6 +70,7 @@ app.post('/connectGame', async (req, res) => {
 
 
 io.on('connection', (socket) => {
+    console.log("connected")
     socket.on('connectToGame', (data) => {
         console.log(`User connected ${data}`)
         let roomId = `room:${data.roomToken}`;
