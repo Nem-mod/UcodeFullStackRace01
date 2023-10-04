@@ -8,6 +8,8 @@ import session from "express-session";
 import {sendLogInPage, sendMainPage, sendRegisterPage} from "./controllers/ViewController.js";
 import {login, register} from "./controllers/AuthController.js";
 import {createGame, renderStartPage} from "./controllers/GameController.js";
+import {Card} from "./models/CardModel.js";
+import {shuffle} from "./utils.js";
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -41,7 +43,7 @@ app.post('/login', login)
 
 
 let rooms = []
-
+let cards = await Card.get_all()
 
 app.post('/createGame', createGame)
 app.post('/connectGame', async (req, res) => {
@@ -54,13 +56,12 @@ app.post('/connectGame', async (req, res) => {
 
 
 io.on('connection', (socket) => {
-    console.log("connected")
     socket.on('connectToGame', (data) => {
         console.log(`User connected ${data}`)
         let roomId = `room:${data.roomToken}`;
         console.log(`User connected ${roomId}`)
         socket.join(roomId)
-        socket.broadcast.to(roomId).emit('hi')
+        socket.broadcast.to(roomId).emit('connected')
     })
 
     socket.on('createRoom', (data) => {
@@ -69,6 +70,16 @@ io.on('connection', (socket) => {
         rooms.push(roomId);
         socket.join(roomId);
         console.log(rooms, roomId)
+    })
+
+    socket.on('dealCards', async (data) => {
+        const { cardAmount } = data;
+
+        let deck = shuffle(cards);
+
+        if (cardAmount < deck.length)
+            io.emit('dealCards', {deck: deck.slice(0, cardAmount)})
+
     })
 });
 

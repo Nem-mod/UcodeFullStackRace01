@@ -9,8 +9,9 @@ export default class SocketHandler {
         // You have connected to the room
         scene.socket.on('connectToGame', () => console.log('You have connected to the room'))
 
-        // scene.socket.on('firstTurn', () => {
-        //     scene.GameHandler.changeTurn();
-        // })
+        scene.socket.on('dealCards', (data) => {
+            const { deck } = data
+            console.log(deck)
+        })
     }
 }
