@@ -21,6 +21,6 @@ export class ActionCard {
             if (err) throw err
             res = rows
         })
-        return rows
+        return res
     }
 }

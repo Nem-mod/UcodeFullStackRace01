@@ -8,6 +8,8 @@ import session from "express-session";
 import {sendLogInPage, sendMainPage, sendRegisterPage} from "./controllers/ViewController.js";
 import {login, register} from "./controllers/AuthController.js";
 import {createGame} from "./controllers/GameController.js";
+import {connect} from "./db/db.js"
+import {readFileSync} from 'fs'
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -30,6 +32,18 @@ app.use(session({
     }
 }));
 
+// Execute the sql query files
+const connection = connect()
+await connection.query((readFileSync('./db/init/users.sql', 'utf-8')), (err) => {
+    if (err) throw err;
+})
+await connection.query((readFileSync('./db/init/cards.sql', 'utf-8')), (err) => {
+    if (err) throw err;
+})
+await connection.query((readFileSync('./db/init/actionCards.sql', 'utf-8')), (err) => {
+    if (err) throw err;
+})
+connection.end()
 
 // Render page controllers
 app.get('/', sendLogInPage)
