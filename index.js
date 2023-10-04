@@ -35,17 +35,17 @@ app.use(session({
 }));
 
 // Execute the sql query files
-const connection = await connect()
-await connection.query((readFileSync('./db/init/users.sql', 'utf-8')), (err) => {
-    if (err) throw err;
-})
-await connection.query((readFileSync('./db/init/cards.sql', 'utf-8')), (err) => {
-    if (err) throw err;
-})
-await connection.query((readFileSync('./db/init/actionCards.sql', 'utf-8')), (err) => {
-    if (err) throw err;
-})
-connection.end()
+// const connection = await connect()
+// await connection.query((readFileSync('./db/init/users.sql', 'utf-8')), (err) => {
+//     if (err) throw err;
+// })
+// await connection.query((readFileSync('./db/init/cards.sql', 'utf-8')), (err) => {
+//     if (err) throw err;
+// })
+// await connection.query((readFileSync('./db/init/actionCards.sql', 'utf-8')), (err) => {
+//     if (err) throw err;
+// })
+// await connection.end()
 
 // Render page controllers
 app.get('/', sendLogInPage)
