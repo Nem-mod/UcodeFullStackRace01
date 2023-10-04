@@ -7,6 +7,7 @@ import {TemplateEngine} from 'thymeleaf';
 import session from "express-session";
 import {sendLogInPage, sendMainPage, sendRegisterPage} from "./controllers/ViewController.js";
 import {login, register} from "./controllers/AuthController.js";
+import {createGame, renderStartPage} from "./controllers/GameController.js";
 import {createGame} from "./controllers/GameController.js";
 import {connect} from "./db/db.js"
 import {readFileSync} from 'fs'
@@ -49,14 +50,23 @@ connection.end()
 app.get('/', sendLogInPage)
 app.get('/registration', sendRegisterPage)
 app.get('/main', sendMainPage)
-app.get('/createGameToken', createGame)
-
-
+app.get('/createGameToken', renderStartPage)
 app.post('/register', register)
 app.post('/login', login)
 
 
 let rooms = []
+
+
+app.post('/createGame', createGame)
+app.post('/connectGame', async (req, res) => {
+    const {token} = req.body
+    if (!token || !rooms.find(token))
+        return;
+
+    res.render('html/main')
+})
+
 
 io.on('connection', (socket) => {
     console.log("connected")
