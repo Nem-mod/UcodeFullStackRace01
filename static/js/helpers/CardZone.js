@@ -21,8 +21,9 @@ export default class CardZone {
         this.zone.cardZone = this;
 
         this.zone.outline = this.scene.add.graphics();
-        this.zone.outline.lineStyle(4, 0xff69b4);
+        this.zone.outline.lineStyle(4, 0xff0000);
         this.zone.outline.strokeRect(this.posX, this.posY, this.width, this.height);  // TODO check if rectangle is correct
+        this.zone.outline.setDepth(1);
         this.hideZone();
     }
 
