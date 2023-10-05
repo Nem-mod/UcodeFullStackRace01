@@ -64,12 +64,10 @@ export default class SocketHandler {
                     continue;
                 }
 
-
                 if (!cards[i + 3] && cards[i]) {
                     scene.myPlayer.addHp(-cards[i].attack)
                     continue;
                 }
-
 
                 let f1 = cards[i].hp - cards[i + 3].attack;
                 let f2 = cards[i + 3].hp - cards[i].attack;
@@ -86,6 +84,12 @@ export default class SocketHandler {
                 else
                     cards[i + 3].addHp(-f2)
             }
+        })
+
+        scene.socket.on('wictory', () => {
+            let { width, height } = scene.sys.game.canvas;
+            scene.tokenText = scene.add.text(width / 3.2, height/ 2.5, `You win`, { font: '800 250px Poppins', fill: '#ffffff'});
+
         })
     }
 }

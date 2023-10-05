@@ -88,6 +88,11 @@ export default class Player {
 
     setDead() {
         this.avatar.setTint(0xff9090);
+        if (!this.isTop)
+            return
+        this.scene.socket.emit('lose');
+        let { width, height } = this.scene.sys.game.canvas;
+        this.scene.tokenText = this.scene.add.text(width / 3.2, height/ 2.5, `You lose`, { font: '800 250px Poppins', fill: '#ffffff'});
     }
 
     isDead() {

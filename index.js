@@ -154,6 +154,11 @@ io.on('connection', (socket) => {
         socket.broadcast.to([...socket.rooms.values()][1]).emit('yourturn')
     })
 
+    socket.on('lose', () => {
+        const roomId = [...socket.rooms.values()][1];
+        socket.broadcast.to([...socket.rooms.values()][1]).emit('wictory')
+    })
+
 
 
 
