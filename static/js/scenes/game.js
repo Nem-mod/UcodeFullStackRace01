@@ -4,6 +4,7 @@ import InteractiveHandler from "../helpers/Handlers/InteractiveHandler.js";
 import GameField from "../helpers/GameField.js";
 import SocketHandler from "../helpers/Handlers/SocketHandler.js";
 import RoomHandler from "../helpers/Handlers/RoomHandler.js";
+import GameButton from "../helpers/GameButton.js";
 
 export default class Game extends Phaser.Scene {
     constructor() {
@@ -35,6 +36,7 @@ export default class Game extends Phaser.Scene {
         this.load.image('hp', '../../assets/hp.png');
         this.load.image('punch', '../../assets/fist.png');
         this.load.image('bolt', '../../assets/bolt.png');
+        this.load.image('button', '../../assets/button.png');
     }
 
     create() {
@@ -50,6 +52,10 @@ export default class Game extends Phaser.Scene {
         this.interactiveHandler = new InteractiveHandler(this);
         this.socketHandler = new SocketHandler(self);
         this.roomHandler = new RoomHandler(self);
+
+        this.button = new GameButton(self);
+
+        this.button.showEndButton();
 
         // this.socket.emit('dealCards', {cardAmount: 6})
     }

@@ -36,6 +36,8 @@ export default class InteractiveHandler {
             card.setDepth(0);
             card.blockCard();
 
+            console.log(this.cardZone.owner.getZoneIndex(cardZone));
+
             // cardZone.destroyCard();
         })
 
