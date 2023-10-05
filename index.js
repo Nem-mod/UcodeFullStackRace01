@@ -96,8 +96,6 @@ io.on('connection', (socket) => {
             playerB: socket.id,
             playerBIsReady: false
         }
-
-
     })
 
     socket.on('createRoom', (data) => {
@@ -124,8 +122,7 @@ io.on('connection', (socket) => {
     socket.on('playCard', function (data) {
         const {card, cardZoneId} = data
         console.log(card);
-        socket.broadcast.to("room:1488").emit('playCard', {card: card, cardZoneId: cardZoneId - 3})
-
+        socket.broadcast.to([...socket.rooms.values()][1]).emit('playCard', {card: card, cardZoneId: cardZoneId - 3})
     });
 
     socket.on('pressReady', () => {
@@ -144,6 +141,7 @@ io.on('connection', (socket) => {
                 io.to(value).emit('startMatch')
         }
     })
+
 
 });
 
