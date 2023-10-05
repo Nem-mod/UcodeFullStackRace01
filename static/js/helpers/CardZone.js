@@ -65,7 +65,7 @@ export default class CardZone {
         return true;
     }
 
-    destroyCard() {
+    deleteCard() {
         if (!this.heroCard)
             return;
 

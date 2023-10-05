@@ -64,7 +64,7 @@ app.post('/login', login)
 
 app.post('/createGame', createGame)
 app.get('/connectGame', async (req, res) => {
-    const token = req.query.token;
+    const token = `room:${req.query.token}`;
     console.log(token);
     if (!token || !rooms[token]) {
         console.log("redirected");
@@ -114,9 +114,11 @@ io.on('connection', (socket) => {
         const {cardAmount} = data;
         let deck = shuffle(cards);
 
-        if (cardAmount < deck.length)
+        if (cardAmount < deck.length) {
             socket.emit('dealCards', {deck: deck.slice(0, cardAmount)})
-
+            // FIX Зробив также як і ти. Треба виправити
+            socket.broadcast.to([...socket.rooms.values()][1]).emit('dealCardsToEnemy', {deck: deck.slice(0, cardAmount)});
+        }
     })
 
     socket.on('playCard', function (data) {
@@ -126,8 +128,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on('pressReady', () => {
-        for (const value of socket.rooms.values()
-            ) {
+        for (const value of socket.rooms.values()) {
             if (!rooms[value])
                 continue;
 

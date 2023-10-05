@@ -28,7 +28,7 @@ export default class HeroCard extends Card{
         this.addHp(0);
         this.addAttack(0);
 
-        if (!this.isOpened)
+        if (!this.isOpen)
             this.hideCardUI();
     }
 
@@ -55,14 +55,28 @@ export default class HeroCard extends Card{
     }
 
     showPreview() {
-        this.preview = new HeroCard(this.scene, null, this.sceneWidth / 6, this.sceneHeight / 2, this.cardKey, this.isOpened, true, this.attack, this.hp);
+        let shiftedY = this.posY <= this.sceneHeight / 2 ? this.posY + Card.cardHeight / 1.5 : this.posY - Card.cardHeight / 1.5;
+        this.preview = new HeroCard(this.scene, null, this.posX, shiftedY, this.cardKey, this.isOpen, true, this.attack, this.hp);
+        this.preview.disableAllInteractive();
+        this.preview.setDepth(99);
 
-        this.preview.cardContainer.setScale(2);
+        this.preview.cardContainer.setScale(2.5);
     }
 
     hidePreview() {
+        if (!this.preview)
+            return;
+
         this.preview.destroyCard();
         this.preview = null;
+    }
+
+    isEquals(card) {
+        if (super.isEquals(card) &&
+            this.attack === card.attack &&
+            this.hp === card.hp)
+            return true;
+        return false;
     }
 
     destroyCard() {

@@ -39,8 +39,8 @@ export default class GameField {
         this.fieldArr[index].placeCard(card);
     }
 
-    removeCard(index) {
-        this.fieldArr[index].destroyCard();
+    deleteCard(index) {
+        this.fieldArr[index].deleteCard();
     }
 
     getZoneIndex(zone) {

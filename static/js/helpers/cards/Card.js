@@ -12,7 +12,7 @@ export default class Card {
         this.posX = x;
         this.posY = y;
         this.cardKey = cardKey;
-        this.isOpened = isOpened;
+        this.isOpen = isOpened;
         this.isBlocked = isBlocked;
         this.preview = null;
 
@@ -27,6 +27,7 @@ export default class Card {
 
         this.cardContainer = this.scene.add.container(this.posX, this.posY);
         this.cardContainer.setSize(Card.cardWidth, Card.cardHeight).setInteractive();
+        this.cardContainer.setDisplaySize(Card.cardWidth, Card.cardHeight);
         this.cardContainer.card = this;
 
         this.initializeCardImg();
@@ -43,10 +44,9 @@ export default class Card {
             this.cardImg.destroy();
         }
 
-        let key = this.isOpened ? this.cardKey : 'cardBack';
+        let key = this.isOpen ? this.cardKey : 'cardBack';
 
         this.cardImg = this.scene.add.image(0 ,0, key);
-        this.cardImg.setDisplaySize(Card.cardWidth, Card.cardHeight);
         this.cardImg.card = this;
 
         this.cardContainer.add(this.cardImg);
@@ -62,10 +62,14 @@ export default class Card {
 
     hidePreview() {}
 
-    // TODO Abstract initialize ui for cards + change pos of ui while moving
+    isEquals(card) {
+        return this.cardKey === card.cardKey &&
+            this.owner === card.owner;
+
+    }
 
     flip() {
-        if (this.isOpened) {
+        if (this.isOpen) {
             this.cardImg.setTexture('cardBack');
             this.hideCardUI();
         }
@@ -74,7 +78,7 @@ export default class Card {
             this.showCardUI();
         }
 
-        this.isOpened = !this.isOpened;
+        this.isOpen = !this.isOpen;
     }
 
     setTempDepth(depth) {
@@ -111,5 +115,15 @@ export default class Card {
 
     unblockCard() {
         this.scene.input.setDraggable(this.cardContainer);
+    }
+
+    disableAllInteractive() {
+        this.blockCard();
+        this.cardContainer.disableInteractive();
+    }
+
+    enableAllInteractive() {
+        this.unblockCard();
+        this.cardContainer.setInteractive();
     }
 }
