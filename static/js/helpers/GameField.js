@@ -1,4 +1,4 @@
-import Card from "./Card.js";
+import Card from "./cards/Card.js";
 import CardZone from "./CardZone.js";
 
 export default class GameField {

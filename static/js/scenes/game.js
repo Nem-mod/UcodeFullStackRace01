@@ -1,9 +1,10 @@
 import Player from '../helpers/Player.js'
-import Card from '../helpers/Card.js'
+import Card from '../helpers/cards/Card.js'
 import Hand from "../helpers/Hand.js";
 import CardZone from "../helpers/CardZone.js";
 import InteractiveHandler from "../helpers/Handlers/InteractiveHandler.js";
 import GameField from "../helpers/GameField.js";
+import SocketHandler from "../helpers/Handlers/SocketHandler.js";
 
 export default class Game extends Phaser.Scene {
     constructor() {
@@ -32,6 +33,9 @@ export default class Game extends Phaser.Scene {
         this.load.image('14', '../../assets/14.jpg');
         this.load.image('15', '../../assets/15.jpg');
         this.load.image('cardBack', '../../assets/cardBack.jpg');
+        this.load.image('hp', '../../assets/hp.png');
+        this.load.image('punch', '../../assets/fist.png');
+        this.load.image('bolt', '../../assets/bolt.png');
     }
 
     create() {
@@ -40,15 +44,13 @@ export default class Game extends Phaser.Scene {
         this.myPlayer = new Player(self, 'avatarOur', false, 20);
         this.enemyPlayer = new Player(self, 'avatarOur', true, 20);
 
-        // this.card1 = new Card(self, 500, 500, '1', false);
-        // this.card1.flip();
-
         this.myHand = new Hand(self, 6, false, true);
-        this.enemtHand = new Hand(self, 6, true, false);
-
-        new InteractiveHandler(this);
+        this.enemyHand = new Hand(self, 6, true, false);
 
         this.gameField = new GameField(self, 6);
+
+        this.interactiveHandler = new InteractiveHandler(this);
+        this.socketHandler = new SocketHandler(self);
     }
 
     update() {}

@@ -1,6 +1,6 @@
-import Card from "./Card.js";
-import ActionCard from "./ActionCard.js";
-import HeroCard from "./HeroCard.js";
+import Card from "./cards/Card.js";
+import ActionCard from "./cards/ActionCard.js";
+import HeroCard from "./cards/HeroCard.js";
 
 export default class CardZone {
     constructor(scene, x, y, isBlocked) {
@@ -10,7 +10,8 @@ export default class CardZone {
         this.width = Card.cardWidth;
         this.height = Card.cardHeight;
         this.isBlocked = isBlocked;
-        this.card = null;
+        this.heroCard = null;
+        this.actionCard = null;
 
         this.initialize();
     }
@@ -27,9 +28,9 @@ export default class CardZone {
 
     showZone(card) {
         if (this.isBlocked ||
-            (card instanceof ActionCard && this.card === null) ||
-            (card instanceof HeroCard && this.card !== null))
-            return;
+            (card instanceof ActionCard && (this.heroCard === null || this.actionCard !== null)) ||
+            (card instanceof HeroCard && this.heroCard !== null))
+            return false;
         this.zone.outline.visible = true;
     }
 
@@ -39,20 +40,39 @@ export default class CardZone {
 
     placeCard(card) {
         if (this.isBlocked ||
-            (card instanceof ActionCard && this.card === null) ||
-            (card instanceof HeroCard && this.card !== null))
+            (card instanceof ActionCard && (this.heroCard === null || this.actionCard !== null)) ||
+            (card instanceof HeroCard && this.heroCard !== null))
             return false;
 
         if (card instanceof ActionCard) {
-            console.log("Action card played");
+            console.log(card.owner.isTop);
+            if (card.owner.isTop)
+                card.setPosition(this.posX + Card.cardWidth / 2, this.posY - Card.cardHeight / 2);
+            else
+                card.setPosition(this.posX + Card.cardWidth / 3, this.posY + Card.cardHeight / 3);
+            this.actionCard = card;
+        } else {
+            card.setPosition(this.posX, this.posY);
+            this.heroCard = card;
         }
 
-        card.setPosition(this.posX, this.posY);
         card.owner.deleteCard(card);
         card.changeOwner(this);
 
-        this.card = card;
-
         return true;
+    }
+
+    destroyCard() {
+        if (!this.heroCard)
+            return;
+
+        this.heroCard.destroyCard();
+        this.heroCard = null;
+
+        if (!this.actionCard)
+            return;
+
+        this.actionCard.destroyCard();
+        this.actionCard = null;
     }
 }

@@ -1,6 +1,6 @@
-import Card from "./Card.js"
-import HeroCard from "./HeroCard.js";
-import ActionCard from "./ActionCard.js";
+import Card from "./cards/Card.js"
+import HeroCard from "./cards/HeroCard.js";
+import ActionCard from "./cards/ActionCard.js";
 
 export default class Hand {
     constructor(scene, maxCards, isTop, isOpen) {
@@ -20,9 +20,9 @@ export default class Hand {
     generateNewHand() { // Just for testing
         for (let i = 0; i < this.maxCards; i++) {
             if (i < 3)
-                this.cardArr[i] = (new HeroCard(this.scene, this, 0, 0, `${i + 1}`, this.isOpen, !this.isOpen));
+                this.cardArr[i] = (new HeroCard(this.scene, this, 0, 0, `${i + 1}`, this.isOpen, !this.isOpen, 20, 15));
             else
-                this.cardArr[i] = (new ActionCard(this.scene, this, 0, 0, `15`, this.isOpen, !this.isOpen));
+                this.cardArr[i] = (new ActionCard(this.scene, this, 0, 0, `15`, this.isOpen, !this.isOpen, 5));
         }
 
         this.shiftCards();
@@ -33,10 +33,10 @@ export default class Hand {
 
         if (this.isTop) {
             posX = this.sceneWidth / 1.5;
-            posY = 0;
+            posY = Card.cardHeight / 4;
         } else {
             posX = this.sceneWidth / 1.5;
-            posY = this.sceneHeight - Card.cardHeight;
+            posY = this.sceneHeight - Card.cardHeight * 1.25;
         }
 
         for (let i = 0; i < this.cardArr.length; i++) {
@@ -55,5 +55,13 @@ export default class Hand {
     putCard(key) {
         this.cardArr.push(new Card(this.scene, this, 0, 0, key, this.isOpen, !this.isTop));
         this.shiftCards();
+    }
+
+    blockHand() {
+        this.cardArr.forEach(c => c.blockCard());
+    }
+
+    unblockHand() {
+        this.cardArr.forEach(c => c.unblockCard());
     }
 }
