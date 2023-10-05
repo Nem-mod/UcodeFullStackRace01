@@ -16,7 +16,27 @@ export class ActionCard {
 
     static async get_all() {
         const connection = await connect()
-        const res = await connection.query("SELECT * FROM action_cards")
-        return res[0]
+        const cards = await connection.query("SELECT * FROM action_cards")
+        let res = cards[0].map(e => {
+            const min = 1, max = 100;
+            const rand =Math.floor(Math.random() * (max-min) + min);
+            let card_power = 0;
+            if(rand < 33)
+                card_power = e.card_low_power;
+            else if(rand > 66)
+                card_power = e.card_high_power;
+            else
+                card_power = e.card_mid_power;
+            return {
+                card_id: e.card_id,
+                card_name: e.card_name,
+                card_action: e.card_action,
+                card_power: card_power,
+                card_cost: e.card_cost,
+                card_img: e.card_img
+            }
+        })
+        console.log(res)
+        return res;
     }
 }
