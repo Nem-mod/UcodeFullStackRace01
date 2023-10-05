@@ -86,9 +86,9 @@ io.on('connection', (socket) => {
     console.log(`User ${socket.id}: Connected`)
     socket.on('connectToGame', (data) => {
         let roomId = `room:${data.roomToken}`;
-        console.log(`User ${socket.id}: Connected to the room ${roomId}`)
-        socket.join(roomId)
-        io.sockets.in(roomId).emit('connected')
+        console.log(`User ${socket.id}: Connected to the room ${roomId}`);
+        socket.join(roomId);
+        io.sockets.in(roomId).emit('connected');
     })
 
     socket.on('createRoom', (data) => {
@@ -96,7 +96,7 @@ io.on('connection', (socket) => {
         console.log(`User ${socket.id}: Created the room ${roomId}`)
         rooms.push(roomId);
         socket.join(roomId);
-        console.log(rooms, roomId)
+        console.log(rooms, roomId);
     })
 
     socket.on('dealCards', async (data) => {

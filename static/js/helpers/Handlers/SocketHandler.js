@@ -1,6 +1,7 @@
 import Card from "../cards/Card.js";
 import HeroCard from "../cards/HeroCard.js";
 import Player from "../Player.js";
+import getCardByData from "../cards/DataToCard.js";
 
 export default class SocketHandler {
     constructor(scene) {
@@ -21,19 +22,12 @@ export default class SocketHandler {
         scene.socket.on('dealCards', (data) => {
             const {deck} = data
             console.log(deck)
-            deck.forEach(c => scene.myHand.putCard(new HeroCard(scene, scene.myHand, 0, 0, '', true, false, 0, 0).setCardByData(c)));
+            deck.forEach(c => scene.myHand.putCard(getCardByData(scene, null, c)));
         })
 
         scene.socket.on("playCard", (data) => {
             const {card, cardZoneId} = data
-            scene.gameField.addCard(
-                new HeroCard(
-                    scene,
-                    scene.gameField.getZoneByIndex(
-                        cardZoneId), 0, 0, card.key, true, true, card.attack, card.hp
-                ),
-                cardZoneId
-            )
+            scene.gameField.addCard(getCardByData(scene, scene.enemyHand, card), cardZoneId)
             console.log("Opponent has played a card")
         })
     }

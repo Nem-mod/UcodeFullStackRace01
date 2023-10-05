@@ -1,9 +1,10 @@
 import Card from "./Card.js";
 
 export default class ActionCard extends Card {
-    constructor(scene, owner, x, y, cardKey, isOpened, isBlocked, strength) {
+    constructor(scene, owner, x, y, cardKey, isOpened, isBlocked, strength, action) {
         super(scene, owner, x, y, cardKey, isOpened, isBlocked);
         this.strength = strength;
+        this.action = action;
         this.initialize();
     }
 
@@ -26,6 +27,15 @@ export default class ActionCard extends Card {
 
         if (!this.isOpened)
             this.hideCardUI();
+    }
+
+    setCardByData(data) {
+        this.strength = data.strength;  // TODO generate strength on server
+        this.cardKey = data.card_id;
+        this.action = data.card_action;
+        this.initialize();
+
+        return this;
     }
 
     showCardUI() {
@@ -65,8 +75,9 @@ export default class ActionCard extends Card {
 
     getCardData() {
         return {
-            key: this.cardKey,
-            strength: this.strength
+            card_id: this.cardKey,
+            strength: this.strength,
+            card_action: this.action
         }
     }
 }

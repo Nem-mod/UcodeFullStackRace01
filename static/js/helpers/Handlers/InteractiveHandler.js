@@ -30,16 +30,14 @@ export default class InteractiveHandler {
             const card = cardContainer.card;
             const cardZone = zone.cardZone;
 
-            if (!cardZone.placeCard(card))
+            if (cardZone.isBlocked || !cardZone.placeCard(card))
                 return;
 
             card.setDepth(0);
             card.blockCard();
-            // console.log(card, cardZone)
-            // Userfield
+
             const cardZoneId = scene.gameField.getZoneIndex(cardZone);
             scene.socket.emit('playCard', {card: card.getCardData(), cardZoneId: cardZoneId})
-            // cardZone.destroyCard();
         })
 
         scene.input.on('pointerover', (pointer, cardContainer) => {
@@ -47,8 +45,6 @@ export default class InteractiveHandler {
             if (!(card instanceof Card))
                 return;
             card.showPreview();
-
-            // scene.dealCards.setColor('#ff69b4');
         })
 
         scene.input.on('pointerout', (pointer, cardContainer) => {
@@ -56,8 +52,6 @@ export default class InteractiveHandler {
             if (!(card instanceof Card))
                 return;
             card.hidePreview();
-
-            // scene.dealCards.setColor('#00ffff')
         })
     }
 }

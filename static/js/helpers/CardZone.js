@@ -47,14 +47,16 @@ export default class CardZone {
 
         if (card instanceof ActionCard) {
             if (card.owner.isTop)
-                card.setPosition(this.posX + Card.cardWidth / 2, this.posY - Card.cardHeight / 2);
+                card.setPosition(this.posX + Card.cardWidth / 3, this.posY - Card.cardHeight / 3);
             else
                 card.setPosition(this.posX + Card.cardWidth / 3, this.posY + Card.cardHeight / 3);
+
             this.actionCard = card;
         } else {
             card.setPosition(this.posX, this.posY);
             this.heroCard = card;
         }
+
         if (card.owner)
             card.owner.deleteCard(card);
 

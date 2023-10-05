@@ -1,4 +1,4 @@
-import Card from "./Card.js";
+import Card from './Card.js';
 
 export default class HeroCard extends Card{
     constructor(scene, owner, x, y, cardKey, isOpened, isBlocked, attack, hp) {
@@ -36,6 +36,7 @@ export default class HeroCard extends Card{
         this.attack = data.card_power;
         this.hp = data.card_hitpoints;
         this.cardKey = data.card_id;
+        console.log(data.card_id);
         this.initialize();
 
         return this;
@@ -92,9 +93,9 @@ export default class HeroCard extends Card{
 
     getCardData() {
         return {
-            key: this.cardKey,
-            attack: this.attack,
-            hp: this.hp
+            card_id: this.cardKey,
+            card_power: this.attack,
+            card_hitpoints: this.hp
         }
     }
 }

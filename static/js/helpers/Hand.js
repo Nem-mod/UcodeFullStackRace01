@@ -53,6 +53,10 @@ export default class Hand {
 
     //TODO create card based on type
     putCard(card) {
+        if (card.owner)
+            card.owner.destroyCard(card);
+
+        card.changeOwner(this);
         this.cardArr.push(card);
         this.shiftCards();
     }

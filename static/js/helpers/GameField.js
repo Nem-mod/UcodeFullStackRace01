@@ -36,7 +36,6 @@ export default class GameField {
     }
 
     addCard(card, index) {
-        console.log(this.fieldArr, index)
         this.fieldArr[index].placeCard(card);
     }
 
