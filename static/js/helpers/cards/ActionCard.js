@@ -31,7 +31,7 @@ export default class ActionCard extends Card {
 
     setCardByData(data) {
         this.strength = data.card_power;
-        this.cardKey = data.card_id;
+        this.cardKey = data.card_img_url;
         this.action = data.card_action;
         this.initialize();
 
@@ -90,7 +90,8 @@ export default class ActionCard extends Card {
         return {
             card_id: this.cardKey,
             strength: this.strength,
-            card_action: this.action
+            card_action: this.action,
+            card_img_url: this.card_img_url
         }
     }
 }
