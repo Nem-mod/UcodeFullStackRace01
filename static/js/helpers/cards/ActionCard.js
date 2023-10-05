@@ -62,4 +62,11 @@ export default class ActionCard extends Card {
 
         this.strengthText.setPosition(this.strengthText.x - (lenAfter - lenBefore) * 5, this.strengthText.y);
     }
+
+    getCardData() {
+        return {
+            key: this.cardKey,
+            strength: this.strength
+        }
+    }
 }

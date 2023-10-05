@@ -35,16 +35,24 @@ export default class GameField {
         this.fieldArr.forEach(z => z.hideZone());
     }
 
-    // addCard(card, index) {
-    //     if (this.fieldArr[index])
-    //         return false;
-    //
-    //     this.fieldArr[index] = card;
-    //
-    //     return true;
-    // }
-    //
-    // removeCard(index) {
-    //     this.fieldArr[index] = null;
-    // }
+    addCard(card, index) {
+        console.log(this.fieldArr, index)
+        this.fieldArr[index].placeCard(card);
+    }
+
+    removeCard(index) {
+        this.fieldArr[index].destroyCard();
+    }
+
+    getZoneIndex(zone) {
+        for (let i = 0; i < this.maxCards; i++) {
+            if (this.fieldArr[i] === zone)
+                return i;
+        }
+        return -1;
+    }
+
+    getZoneByIndex(index) {
+        return this.fieldArr[index]
+    }
 }

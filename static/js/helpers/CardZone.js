@@ -39,9 +39,10 @@ export default class CardZone {
     }
 
     placeCard(card) {
-        if (this.isBlocked ||
+        if (
             (card instanceof ActionCard && (this.heroCard === null || this.actionCard !== null)) ||
-            (card instanceof HeroCard && this.heroCard !== null))
+            (card instanceof HeroCard && this.heroCard !== null)
+        )
             return false;
 
         if (card instanceof ActionCard) {
@@ -54,8 +55,9 @@ export default class CardZone {
             card.setPosition(this.posX, this.posY);
             this.heroCard = card;
         }
+        if (card.owner)
+            card.owner.deleteCard(card);
 
-        card.owner.deleteCard(card);
         card.changeOwner(this);
 
         return true;
