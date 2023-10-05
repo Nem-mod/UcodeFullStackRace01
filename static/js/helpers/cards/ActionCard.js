@@ -30,7 +30,7 @@ export default class ActionCard extends Card {
     }
 
     setCardByData(data) {
-        this.strength = 0;  // TODO generate strength on server
+        this.strength = data.card_power;
         this.cardKey = data.card_id;
         this.action = data.card_action;
         this.initialize();

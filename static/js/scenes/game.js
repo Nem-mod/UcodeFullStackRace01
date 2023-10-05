@@ -37,17 +37,18 @@ export default class Game extends Phaser.Scene {
         this.load.image('punch', '../../assets/fist.png');
         this.load.image('bolt', '../../assets/bolt.png');
         this.load.image('button', '../../assets/button.png');
+        this.load.image('background', '../../assets/background.jpg');
     }
 
     create() {
         let self = this;
 
+        this.gameField = new GameField(self, 6);
+
         this.myPlayer = new Player(self, 'avatarOur', false, 20);
 
         this.myHand = new Hand(self, 6, false, true);
         this.enemyHand = new Hand(self, 6, true, false);
-
-        this.gameField = new GameField(self, 6);
 
         this.socketHandler = new SocketHandler(self);
         this.interactiveHandler = new InteractiveHandler(this);
