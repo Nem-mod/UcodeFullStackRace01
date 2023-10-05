@@ -25,6 +25,9 @@ export default class GameField {
                 this.fieldArr[i * this.maxCards / 2 + x] = new CardZone(this.scene, posX + (Card.cardWidth + this.gapX) * x, posY + (Card.cardHeight + this.gapY) * i, i === 0);
             }
         }
+
+        this.background = this.scene.add.image(0, 0, 'background').setOrigin(0, 0);
+        this.background.setDisplaySize(1920, 1080);
     }
 
     showAllZones(card) {
