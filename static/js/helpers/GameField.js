@@ -57,4 +57,8 @@ export default class GameField {
     getZoneByIndex(index) {
         return this.fieldArr[index]
     }
+
+    getCards() {
+        return this.fieldArr.map(e => e?.heroCard);
+    }
 }

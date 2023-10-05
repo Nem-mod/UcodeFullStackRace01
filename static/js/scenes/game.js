@@ -46,7 +46,6 @@ export default class Game extends Phaser.Scene {
         this.gameField = new GameField(self, 6);
 
         this.myPlayer = new Player(self, 'avatarOur', false, 20);
-
         this.myHand = new Hand(self, 6, false, true);
         this.enemyHand = new Hand(self, 6, true, false);
 
