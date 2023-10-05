@@ -25,12 +25,12 @@ export default class ActionCard extends Card {
 
         this.addStrength(0);
 
-        if (!this.isOpened)
+        if (!this.isOpen)
             this.hideCardUI();
     }
 
     setCardByData(data) {
-        this.strength = data.strength;  // TODO generate strength on server
+        this.strength = 0;  // TODO generate strength on server
         this.cardKey = data.card_id;
         this.action = data.card_action;
         this.initialize();
@@ -49,14 +49,27 @@ export default class ActionCard extends Card {
     }
 
     showPreview() {
-        this.preview = new ActionCard(this.scene, null, this.sceneWidth / 6, this.sceneHeight / 2, this.cardKey, this.isOpened, true, this.strength);
+        let shiftedY = this.posY <= this.sceneHeight / 2 ? this.posY + Card.cardHeight / 1.5 : this.posY - Card.cardHeight / 1.5;
+        this.preview = new ActionCard(this.scene, null, this.posX, shiftedY, this.cardKey, this.isOpen, true, this.strength);
+        this.preview.disableAllInteractive();
+        this.preview.setDepth(99);
 
-        this.preview.cardContainer.setScale(2);
+        this.preview.cardContainer.setScale(2.5);
     }
 
     hidePreview() {
+        if (!this.preview)
+            return;
+
         this.preview.destroyCard();
         this.preview = null;
+    }
+
+    isEquals(card) {
+        if (super.isEquals(card) &&
+            this.strength === card.strength)
+            return true;
+        return false;
     }
 
     destroyCard() {

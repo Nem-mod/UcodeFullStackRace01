@@ -46,17 +46,41 @@ export default class Hand {
     }
 
     deleteCard(card) {
+        const lenBefore = this.cardArr.length
         this.cardArr = this.cardArr.filter(c => c !== card);
+
+        if (lenBefore === this.cardArr.length) {
+            let isDeleted = false;
+
+            this.cardArr = this.cardArr.filter(c => {
+                if (!c.isEquals(card)) {
+                    return true;
+                }
+                if (!isDeleted) {
+                    c.destroyCard();
+                    isDeleted = true;
+                    return false;
+                }
+                return true;
+            });
+        }
+
         this.shiftCards();
         card.changeOwner(null);
     }
 
-    //TODO create card based on type
     putCard(card) {
         if (card.owner)
             card.owner.destroyCard(card);
 
         card.changeOwner(this);
+        if (this.isOpen !== card.isOpen) {
+            card.flip();
+        }
+        if (!this.isOpen) {
+            card.blockCard();
+        }
+
         this.cardArr.push(card);
         this.shiftCards();
     }

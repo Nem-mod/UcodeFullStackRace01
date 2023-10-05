@@ -8,12 +8,15 @@ export default class SocketHandler {
         scene.socket = io('http://localhost:3001/');
 
         // Create room
-        scene.socket.on('createRoom', () => console.log("You have created a room"));
+        scene.socket.on('createRoom', () => {
+            console.log("You have created a room");
+        });
 
         // Another user connects to game
         scene.socket.on('connected', () => {
             console.log("User has connected");
             scene.enemyPlayer = new Player(scene, 'avatarOur', true, 20);
+            scene?.tokenText?.destroy();
             scene.gameButton.showReadyButton();
         });
 
@@ -21,9 +24,15 @@ export default class SocketHandler {
         scene.socket.on('connectToGame', () => console.log('You have connected to the room'));
 
         scene.socket.on('dealCards', (data) => {
-            const {deck} = data
-            console.log(deck)
+            const {deck} = data;
+            console.log(deck);
             deck.forEach(c => scene.myHand.putCard(getCardByData(scene, null, c)));
+        })
+
+        scene.socket.on('dealCardsToEnemy', (data) => {
+            const {deck} = data;
+            console.log(deck);
+            deck.forEach(c => scene.enemyHand.putCard(getCardByData(scene, null, c)));
         })
 
         scene.socket.on("playCard", (data) => {

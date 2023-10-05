@@ -11,6 +11,7 @@ export default class InteractiveHandler {
 
             card.setTempDepth(99);
             scene.gameField.showAllZones(card);
+            card.hidePreview();
         });
 
         scene.input.on('drag', (pointer, cardContainer, dragX, dragY) => {
@@ -60,9 +61,8 @@ export default class InteractiveHandler {
 
     buttonPressHandler() {
         if (this.action === 'ready') {
-            console.log("Pressed " + this.action);
-            this.scene.socket.emit('pressReady')
-            this.hideButton()
+            this.scene.socket.emit('pressReady');
+            this.hideButton();
         }
     }
 }
