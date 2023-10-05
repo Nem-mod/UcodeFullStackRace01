@@ -40,6 +40,10 @@ export default class InteractiveHandler {
 
             const cardZoneId = scene.gameField.getZoneIndex(cardZone);
             scene.socket.emit('playCard', {card: card.getCardData(), cardZoneId: cardZoneId})
+            scene.moves--;
+            if (scene.moves == 0) {
+                scene.myHand.blockHand()
+            }
         })
 
         scene.input.on('pointerover', (pointer, cardContainer) => {
