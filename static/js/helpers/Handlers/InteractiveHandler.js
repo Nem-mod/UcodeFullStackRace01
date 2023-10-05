@@ -38,7 +38,6 @@ export default class InteractiveHandler {
             // console.log(card, cardZone)
             // Userfield
             const cardZoneId = scene.gameField.getZoneIndex(cardZone);
-
             scene.socket.emit('playCard', {card: card.getCardData(), cardZoneId: cardZoneId})
             // cardZone.destroyCard();
         })
