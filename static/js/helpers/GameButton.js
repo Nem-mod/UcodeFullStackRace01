@@ -19,7 +19,8 @@ export default class GameButton {
         this.btnContainer = this.scene.add.container(this.sceneWidth - GameButton.buttonWidth, this.sceneHeight / 2);
         this.scene.input.enableDebug(this.btnContainer);
 
-        this.btn = new Button(this.scene, 0, 0, 'button', this.buttonPressHandler.bind(this));
+        this.btn = new Button(this.scene, 0, 0, 'button', this.scene.interactiveHandler.buttonPressHandler.bind(this));
+
         this.btn.setDisplaySize(GameButton.buttonWidth, GameButton.buttonHeight);
 
         this.btnText = this.scene.add.text(0, -GameButton.buttonHeight / 4, 0, { font: '800 40px Poppins', fill: '#ffffff'});
@@ -52,7 +53,5 @@ export default class GameButton {
         this.btnContainer.visible = false;
     }
 
-    buttonPressHandler() {
-        console.log("Pressed " + this.action);
-    }
+
 }
