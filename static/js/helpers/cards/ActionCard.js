@@ -91,7 +91,7 @@ export default class ActionCard extends Card {
             card_id: this.cardKey,
             strength: this.strength,
             card_action: this.action,
-            card_img_url: this.card_img_url
+            card_img_url: this.card_img
         }
     }
 }
