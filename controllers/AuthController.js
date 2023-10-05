@@ -16,11 +16,6 @@ export const register = async (req, res) => {
         psw2 = psw2.trim();
         email = email.trim();
 
-        errors.loginValue = login;
-        errors.psw1Value = psw1;
-        errors.psw2Value = psw2;
-        errors.emailValue = email;
-
 
         if (!login || login.length < 5 || login.length > 30) {
             errors.loginError = "Must be more than 5 and less than 30 symbols";
@@ -45,8 +40,14 @@ export const register = async (req, res) => {
         }
 
 
-        if (Object.keys(errors).length !== 0)
+        if (Object.keys(errors).length !== 0) {
+            errors.loginValue = login;
+            errors.psw1Value = psw1;
+            errors.psw2Value = psw2;
+            errors.emailValue = email;
             throw errors
+        }
+
 
         const user = new UserModel(login, psw1, email);
 
