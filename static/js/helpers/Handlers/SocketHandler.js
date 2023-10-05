@@ -56,20 +56,35 @@ export default class SocketHandler {
         scene.socket.on('eval', () => {
             let cards = scene.gameField.getCards();
             for (let i = 0; i <= 2; i++) {
-                if (!cards[i] && !cards[i+3])
+                if (!cards[i] && !cards[i + 3])
                     continue
-                let f1 = cards[i].hp - cards[i+3].attack;
-                let f2 = cards[i+3].hp - cards[i].attack;
+
+                if (!cards[i] && cards[i + 3]) {
+                    scene.enemyPlayer.addHp(-cards[i + 3].attack)
+                    continue;
+                }
+
+
+                if (!cards[i + 3] && cards[i]) {
+                    scene.myPlayer.addHp(-cards[i].attack)
+                    continue;
+                }
+
+
+                let f1 = cards[i].hp - cards[i + 3].attack;
+                let f2 = cards[i + 3].hp - cards[i].attack;
 
                 if (!f1 || f1 <= 0)
-                    cards[i].destroyCard()
+                    // cards[i].destroyCard()
+                    scene.gameField.deleteCard(i)
                 else
                     cards[i].addHp(-f1)
 
                 if (!f2 || f2 <= 0)
-                    cards[i+3].destroyCard()
+                    // cards[i+3].destroyCard()
+                    scene.gameField.deleteCard(i + 3)
                 else
-                    cards[i+3].addHp(-f2)
+                    cards[i + 3].addHp(-f2)
             }
         })
     }
