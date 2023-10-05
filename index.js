@@ -7,7 +7,11 @@ import {TemplateEngine} from 'thymeleaf';
 import session from "express-session";
 import {sendLogInPage, sendMainPage, sendRegisterPage} from "./controllers/ViewController.js";
 import {login, register} from "./controllers/AuthController.js";
-import {createGame} from "./controllers/GameController.js";
+import {createGame, renderStartPage} from "./controllers/GameController.js";
+import {connect} from "./db/db.js"
+import {readFileSync} from 'fs'
+import {Card} from "./models/CardModel.js";
+import {shuffle} from "./utils.js";
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -30,19 +34,40 @@ app.use(session({
     }
 }));
 
+// Execute the sql query files
+// const connection = await connect()
+// await connection.query((readFileSync('./db/init/users.sql', 'utf-8')), (err) => {
+//     if (err) throw err;
+// })
+// await connection.query((readFileSync('./db/init/cards.sql', 'utf-8')), (err) => {
+//     if (err) throw err;
+// })
+// await connection.query((readFileSync('./db/init/actionCards.sql', 'utf-8')), (err) => {
+//     if (err) throw err;
+// })
+// await connection.end()
 
 // Render page controllers
 app.get('/', sendLogInPage)
 app.get('/registration', sendRegisterPage)
 app.get('/main', sendMainPage)
-app.get('/createGameToken', createGame)
-
-
+app.get('/createGameToken', renderStartPage)
 app.post('/register', register)
 app.post('/login', login)
 
 
 let rooms = []
+let cards = await Card.get_all()
+
+app.post('/createGame', createGame)
+app.post('/connectGame', async (req, res) => {
+    const {token} = req.body
+    if (!token || !rooms.find(token))
+        return;
+
+    res.render('html/main')
+})
+
 
 io.on('connection', (socket) => {
     console.log("connected")
@@ -51,7 +76,7 @@ io.on('connection', (socket) => {
         let roomId = `room:${data.roomToken}`;
         console.log(`User connected ${roomId}`)
         socket.join(roomId)
-        socket.broadcast.to(roomId).emit('hi')
+        socket.broadcast.to(roomId).emit('connected')
     })
 
     socket.on('createRoom', (data) => {
@@ -60,6 +85,16 @@ io.on('connection', (socket) => {
         rooms.push(roomId);
         socket.join(roomId);
         console.log(rooms, roomId)
+    })
+
+    socket.on('dealCards', async (data) => {
+        const { cardAmount } = data;
+
+        let deck = shuffle(cards);
+
+        if (cardAmount < deck.length)
+            io.emit('dealCards', {deck: deck.slice(0, cardAmount)})
+
     })
 });
 
