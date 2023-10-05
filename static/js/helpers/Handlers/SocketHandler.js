@@ -43,7 +43,15 @@ export default class SocketHandler {
 
         scene.socket.on("startMatch", (data) => {
             console.log("Match is started");
-            scene.socket.emit('dealCards', {cardAmount: 6})
+            // scene.socket.emit('dealCards', {cardAmount: 6})
+            scene.myHand.blockHand();
+        })
+
+        scene.socket.on('yourturn', () => {
+            scene.gameButton.showEndButton();
+            scene.socket.emit('dealCards', {cardAmount: (6 - scene.myHand.cardArr.length)})
+            scene.moves = 2
+            scene.myHand.unblockHand();
         })
     }
 }

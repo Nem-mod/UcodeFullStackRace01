@@ -96,8 +96,6 @@ io.on('connection', (socket) => {
             playerB: socket.id,
             playerBIsReady: false
         }
-
-
     })
 
     socket.on('createRoom', (data) => {
@@ -119,16 +117,14 @@ io.on('connection', (socket) => {
         if (cardAmount < deck.length) {
             socket.emit('dealCards', {deck: deck.slice(0, cardAmount)})
             // FIX Зробив также як і ти. Треба виправити
-            socket.broadcast.to("room:1488").emit('dealCardsToEnemy', {deck: deck.slice(0, cardAmount)});
+            socket.broadcast.to([...socket.rooms.values()][1]).emit('dealCardsToEnemy', {deck: deck.slice(0, cardAmount)});
         }
     })
 
     socket.on('playCard', function (data) {
         const {card, cardZoneId} = data
         console.log(card);
-        // FIX Ти впевнений що кімнату треба хардкодити?
-        socket.broadcast.to("room:1488").emit('playCard', {card: card, cardZoneId: cardZoneId - 3})
-
+        socket.broadcast.to([...socket.rooms.values()][1]).emit('playCard', {card: card, cardZoneId: cardZoneId - 3})
     });
 
     socket.on('pressReady', () => {
@@ -142,10 +138,18 @@ io.on('connection', (socket) => {
             if (rooms[value].playerB === socket.id)
                 rooms[value].playerBIsReady = true;
 
-            if (rooms[value].playerAIsReady && rooms[value].playerBIsReady)
+            if (rooms[value].playerAIsReady && rooms[value].playerBIsReady) {
                 io.to(value).emit('startMatch')
+                io.to(rooms[value].playerA).emit('yourturn')
+            }
+
         }
     })
+
+    socket.on('endturn', () => {
+        socket.broadcast.to([...socket.rooms.values()][1]).emit('yourturn')
+    })
+
 
 });
 

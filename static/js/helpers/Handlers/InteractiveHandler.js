@@ -41,6 +41,10 @@ export default class InteractiveHandler {
 
             const cardZoneId = scene.gameField.getZoneIndex(cardZone);
             scene.socket.emit('playCard', {card: card.getCardData(), cardZoneId: cardZoneId})
+            scene.moves--;
+            if (scene.moves == 0) {
+                scene.myHand.blockHand()
+            }
         })
 
         scene.input.on('pointerover', (pointer, cardContainer) => {
@@ -63,6 +67,13 @@ export default class InteractiveHandler {
         if (this.action === 'ready') {
             this.scene.socket.emit('pressReady');
             this.hideButton();
+        }
+
+        if (this.action === 'endturn') {
+            console.log(`Pressed ${this.action}`);
+            this.scene.socket.emit('endturn');
+            this.scene.myHand.blockHand();
+            this.scene.gameButton.hideButton();
         }
     }
 }
