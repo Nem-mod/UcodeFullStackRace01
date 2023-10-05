@@ -60,28 +60,32 @@ let rooms = []
 let cards = await Card.get_all()
 
 app.post('/createGame', createGame)
-app.post('/connectGame', async (req, res) => {
-    const {token} = req.body
-    if (!token || !rooms.find(token))
-        return;
+app.get('/connectGame', async (req, res) => {
+    const token = req.query.token;
+    console.log(token);
+    if (!token || !rooms.find(t => t === token)) {
+        console.log("redirected");
+        res.redirect('/main')
+    } else {
+        console.log("to the game");
+        res.render('html/main')
+    }
 
-    res.render('html/main')
 })
 
 
 io.on('connection', (socket) => {
-    console.log("connected")
+    console.log(`User ${socket.id}: Connected`)
     socket.on('connectToGame', (data) => {
-        console.log(`User connected ${data}`)
         let roomId = `room:${data.roomToken}`;
-        console.log(`User connected ${roomId}`)
+        console.log(`User ${socket.id}: Connected to the room ${roomId}`)
         socket.join(roomId)
-        socket.broadcast.to(roomId).emit('connected')
+        io.sockets.in(roomId).emit('connected')
     })
 
     socket.on('createRoom', (data) => {
-        console.log(`User connected ${data}`)
         let roomId = `room:${data.roomToken}`;
+        console.log(`User ${socket.id}: Created the room ${roomId}`)
         rooms.push(roomId);
         socket.join(roomId);
         console.log(rooms, roomId)
@@ -93,7 +97,7 @@ io.on('connection', (socket) => {
         let deck = shuffle(cards);
 
         if (cardAmount < deck.length)
-            io.emit('dealCards', {deck: deck.slice(0, cardAmount)})
+            socket.emit('dealCards', {deck: deck.slice(0, cardAmount)})
 
     })
 });

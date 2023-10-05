@@ -8,13 +8,13 @@ export default class Hand {
         this.maxCards = maxCards;
         this.isTop = isTop;
         this.isOpen = isOpen;
-        this.cardArr = [this.maxCards];
+        this.cardArr = [];
 
         let { width, height } = this.scene.sys.game.canvas;
         this.sceneWidth = width;
         this.sceneHeight = height;
 
-        this.generateNewHand();
+        // this.generateNewHand();
     }
 
     generateNewHand() { // Just for testing
@@ -52,8 +52,8 @@ export default class Hand {
     }
 
     //TODO create card based on type
-    putCard(key) {
-        this.cardArr.push(new Card(this.scene, this, 0, 0, key, this.isOpen, !this.isTop));
+    putCard(card) {
+        this.cardArr.push(card);
         this.shiftCards();
     }
 

@@ -19,6 +19,9 @@ export default class Card {
     }
 
     initialize() {
+        if (this.cardContainer)
+            this.destroyCard();
+
         this.cardContainer = this.scene.add.container(this.posX, this.posY);
         this.cardContainer.setSize(Card.cardWidth, Card.cardHeight).setInteractive();
         this.cardContainer.card = this;

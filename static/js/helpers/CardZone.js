@@ -45,7 +45,6 @@ export default class CardZone {
             return false;
 
         if (card instanceof ActionCard) {
-            console.log(card.owner.isTop);
             if (card.owner.isTop)
                 card.setPosition(this.posX + Card.cardWidth / 2, this.posY - Card.cardHeight / 2);
             else

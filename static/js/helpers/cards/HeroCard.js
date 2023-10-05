@@ -10,10 +10,6 @@ export default class HeroCard extends Card{
     }
 
     initializeCardUI() {
-        // if (this.cardUI) {
-        //     this.cardUI.hpText.destroy();
-        // }
-
         this.hpImg = this.scene.add.image(-Card.cardWidth / 2, -Card.cardHeight / 2, 'hp')
         this.hpImg.setDisplaySize(Card.iconSize, Card.iconSize);
         this.attackImg = this.scene.add.image(-Card.cardWidth / 2.1, Card.cardHeight / 1.9, 'punch')
@@ -34,6 +30,15 @@ export default class HeroCard extends Card{
 
         if (!this.isOpened)
             this.hideCardUI();
+    }
+
+    setCardByData(data) {
+        this.attack = data.card_power;
+        this.hp = data.card_hitpoints;
+        this.cardKey = data.card_id;
+        this.initialize();
+
+        return this;
     }
 
     showCardUI() {

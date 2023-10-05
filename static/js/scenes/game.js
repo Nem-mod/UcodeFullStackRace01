@@ -1,9 +1,9 @@
 import Player from '../helpers/Player.js'
-import Card from '../helpers/Card.js'
 import Hand from "../helpers/Hand.js";
-import CardZone from "../helpers/CardZone.js";
 import InteractiveHandler from "../helpers/Handlers/InteractiveHandler.js";
 import GameField from "../helpers/GameField.js";
+import SocketHandler from "../helpers/Handlers/SocketHandler.js";
+import RoomHandler from "../helpers/Handlers/RoomHandler.js";
 
 export default class Game extends Phaser.Scene {
     constructor() {
@@ -41,7 +41,6 @@ export default class Game extends Phaser.Scene {
         let self = this;
 
         this.myPlayer = new Player(self, 'avatarOur', false, 20);
-        this.enemyPlayer = new Player(self, 'avatarOur', true, 20);
 
         this.myHand = new Hand(self, 6, false, true);
         this.enemyHand = new Hand(self, 6, true, false);
@@ -50,7 +49,9 @@ export default class Game extends Phaser.Scene {
 
         this.interactiveHandler = new InteractiveHandler(this);
         this.socketHandler = new SocketHandler(self);
-        this.socket.emit('dealCards', {cardAmount: 2})
+        this.roomHandler = new RoomHandler(self);
+
+        // this.socket.emit('dealCards', {cardAmount: 6})
     }
 
     update() {}

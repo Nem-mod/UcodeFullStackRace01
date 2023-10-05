@@ -32,7 +32,7 @@ export default class Player {
 
         if (this.scene.textures.exists(this.avatarName)) {
             this.avatar = this.scene.add.rexCircleMaskImage(posX, posY, this.avatarName).setOrigin(0, 0);
-            this.avatar.setSize(Player.avatarSize, Player.avatarSize);
+            this.avatar.setDisplaySize(Player.avatarSize, Player.avatarSize);
             this.renderPlayerUX();
             return;
         }
