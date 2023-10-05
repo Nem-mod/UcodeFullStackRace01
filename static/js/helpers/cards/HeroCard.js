@@ -33,7 +33,6 @@ export default class HeroCard extends Card{
     }
 
     setCardByData(data) {
-        console.log(data);
         this.attack = data.card_power;
         this.hp = data.card_hitpoints;
         this.cardKey = data.card_img_url;

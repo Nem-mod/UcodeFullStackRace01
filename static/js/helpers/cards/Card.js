@@ -48,6 +48,7 @@ export default class Card {
 
         this.cardImg = this.scene.add.image(0 ,0, key);
         this.cardImg.card = this;
+        this.cardImg.setDisplaySize(Card.cardWidth, Card.cardHeight);
 
         this.cardContainer.add(this.cardImg);
     }
