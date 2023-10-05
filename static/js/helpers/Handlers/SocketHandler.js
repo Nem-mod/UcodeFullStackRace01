@@ -14,6 +14,7 @@ export default class SocketHandler {
         scene.socket.on('connected', () => {
             console.log("User has connected");
             scene.enemyPlayer = new Player(scene, 'avatarOur', true, 20);
+            scene.gameButton.showReadyButton();
         });
 
         // You have connected to the room
@@ -29,6 +30,11 @@ export default class SocketHandler {
             const {card, cardZoneId} = data
             scene.gameField.addCard(getCardByData(scene, scene.enemyHand, card), cardZoneId)
             console.log("Opponent has played a card")
+        })
+
+        scene.socket.on("startMatch", (data) => {
+            console.log("Match is started");
+            scene.socket.emit('dealCards', {cardAmount: 6})
         })
     }
 }

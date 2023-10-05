@@ -4,6 +4,8 @@ import HeroCard from "../cards/HeroCard.js";
 
 export default class InteractiveHandler {
     constructor(scene) {
+        this.scene = scene;
+
         scene.input.on('dragstart', (pointer, cardContainer) => {
             const card = cardContainer.card;
 
@@ -53,5 +55,14 @@ export default class InteractiveHandler {
                 return;
             card.hidePreview();
         })
+
+    }
+
+    buttonPressHandler() {
+        if (this.action === 'ready') {
+            console.log("Pressed " + this.action);
+            this.scene.socket.emit('pressReady')
+            this.hideButton()
+        }
     }
 }

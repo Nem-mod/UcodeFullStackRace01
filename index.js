@@ -62,15 +62,11 @@ app.get('/createGameToken', renderStartPage)
 app.post('/register', register)
 app.post('/login', login)
 
-
-let rooms = []
-let cards = [...(await Card.get_all()), ...(await ActionCard.get_all())]
-
 app.post('/createGame', createGame)
 app.get('/connectGame', async (req, res) => {
     const token = req.query.token;
     console.log(token);
-    if (!token || !rooms.find(t => t === token)) {
+    if (!token || !rooms[token]) {
         console.log("redirected");
         res.render('html/main_page', {
             tokenError: "No game with that token"
@@ -82,25 +78,42 @@ app.get('/connectGame', async (req, res) => {
 
 })
 
+
+let rooms = {}
+let cards = [...(await Card.get_all()), ...(await ActionCard.get_all())]
+
 io.on('connection', (socket) => {
     console.log(`User ${socket.id}: Connected`)
     socket.on('connectToGame', (data) => {
         let roomId = `room:${data.roomToken}`;
-        console.log(`User ${socket.id}: Connected to the room ${roomId}`);
-        socket.join(roomId);
-        io.sockets.in(roomId).emit('connected');
+        console.log(`User ${socket.id}: Connected to the room ${roomId}`)
+        if (!rooms[roomId])
+            return;
+        socket.join(roomId)
+        io.sockets.in(roomId).emit('connected')
+        rooms[roomId] = {
+            ...rooms[roomId],
+            playerB: socket.id,
+            playerBIsReady: false
+        }
+
+
     })
 
     socket.on('createRoom', (data) => {
         let roomId = `room:${data.roomToken}`;
         console.log(`User ${socket.id}: Created the room ${roomId}`)
-        rooms.push(roomId);
+        rooms[roomId] = {
+            playerA: socket.id,
+            playerAIsReady: false
+        };
+
         socket.join(roomId);
-        console.log(rooms, roomId);
+
     })
 
     socket.on('dealCards', async (data) => {
-        const { cardAmount } = data;
+        const {cardAmount} = data;
         let deck = shuffle(cards);
 
         if (cardAmount < deck.length)
@@ -111,9 +124,26 @@ io.on('connection', (socket) => {
     socket.on('playCard', function (data) {
         const {card, cardZoneId} = data
         console.log(card);
-        socket.broadcast.to("room:1488").emit('playCard', {card: card, cardZoneId: cardZoneId-3 })
+        socket.broadcast.to("room:1488").emit('playCard', {card: card, cardZoneId: cardZoneId - 3})
 
     });
+
+    socket.on('pressReady', () => {
+        for (const value of socket.rooms.values()
+            ) {
+            if (!rooms[value])
+                continue;
+
+            if (rooms[value].playerA === socket.id)
+                rooms[value].playerAIsReady = true;
+
+            if (rooms[value].playerB === socket.id)
+                rooms[value].playerBIsReady = true;
+
+            if (rooms[value].playerAIsReady && rooms[value].playerBIsReady)
+                io.to(value).emit('startMatch')
+        }
+    })
 
 });
 
