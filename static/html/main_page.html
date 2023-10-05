@@ -5,16 +5,36 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/forms.css">
     <title>Main Page</title>
 </head>
 <body>
-  <div id="tokenStr"></div>
-  <form action="/createGame" method="post">
-      <button type="submit" id="createRoomBtn">Create Game</button>
-  </form>
-  <form action="/connectGame">
-      <input type="text" name="token" required>
-      <button type="submit">Connect</button>
-  </form>
+<div class="centered-wrp">
+    <div class="window-wrp">
+        <div class="form-wrp">
+            <form action="/createGame" method="post">
+                <input type="submit" id="createRoomBtn" value="Create Game" class="submit-btn">
+            </form>
+        </div>
+        <div class="form-wrp">
+          <form action="/connectGame">
+              <div class="form-items-wrp">
+                  <div class="labels">
+                      <label for="token">Game token</label>
+                  </div>
+
+                  <div class="fields">
+                      <input type="text" name="token" id="token" required>
+                  </div>
+              </div>
+              <div class="errors">
+                  <span thjs:text="${tokenError}"></span>
+              </div>
+              <input type="submit" value="Connect" class="submit-btn">
+          </form>
+        </div>
+    </div>
+</div>
 </body>
 </html>

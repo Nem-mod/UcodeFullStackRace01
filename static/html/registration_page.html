@@ -21,7 +21,6 @@
             <label for="login">Login</label>
             <label for="psw1">Password</label>
             <label for="psw2">Repeat</label>
-            <label for="username">Username</label>
             <label for="email">Email</label>
           </div>
 
@@ -29,7 +28,6 @@
             <input type="text" name="login" id="login" thjs:value="${loginValue}">
             <input type="password" name="psw1" id="psw1" thjs:value="${psw1Value}">
             <input type="password" name="psw2" id="psw2" thjs:value="${psw2Value}">
-            <input type="text" name="username" id="username" thjs:value="${usernameValue}">
             <input type="email" name="email" id="email" thjs:value="${emailValue}">
           </div>
 
@@ -37,7 +35,6 @@
             <span thjs:text="${loginError}"></span>
             <span thjs:text="${psw1Error}"></span>
             <span thjs:text="${psw2Error}"></span>
-            <span thjs:text="${usernameError}"></span>
             <span thjs:text="${emailError}"></span>
           </div>
         </div>
@@ -49,40 +46,5 @@
     </div>
   </div>
 </div>
-
-<!--<div class="centered-wrp">-->
-<!--  <form action="/register" method="post">-->
-<!--    <div class="form-items-wrp">-->
-<!--      <div class="labels">-->
-<!--        <label for="login">Login</label>-->
-<!--        <label for="psw1">Password</label>-->
-<!--        <label for="psw2">Confirm password</label>-->
-<!--        <label for="username">Username</label>-->
-<!--        <label for="email">Email</label>-->
-
-<!--      </div>-->
-
-<!--      <div class="fields">-->
-<!--        <input type="text" name="login" id="login" thjs:value="${loginValue}">-->
-<!--        <input type="password" name="psw1" id="psw1" thjs:value="${psw1Value}">-->
-<!--        <input type="password" name="psw2" id="psw2" thjs:value="${psw2Value}">-->
-<!--        <input type="text" name="username" id="username" thjs:value="${usernameValue}">-->
-<!--        <input type="email" name="email" id="email" thjs:value="${emailValue}">-->
-<!--      </div>-->
-
-<!--      <div class="errors">-->
-<!--        <span thjs:text="${loginError}"></span>-->
-<!--        <span thjs:text="${psw1Error}"></span>-->
-<!--        <span thjs:text="${psw2Error}"></span>-->
-<!--        <span thjs:text="${usernameError}"></span>-->
-<!--        <span thjs:text="${emailError}"></span>-->
-<!--      </div>-->
-<!--    </div>-->
-
-<!--    <input type="submit" value="Register" class="submit-btn">-->
-<!--    <span class="success" thjs:text="${success}"></span>-->
-<!--    <a href="/">Back</a>-->
-<!--  </form>-->
-<!--</div>-->
 </body>
 </html>

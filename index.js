@@ -30,7 +30,7 @@ app.use(express.urlencoded({extended: true}));
 
 app.use(session({
     name: 'anech', secret: 'anech', resave: false, saveUninitialized: true, cookie: {
-        maxAge: 100000
+        oneDay: 1000 * 60 * 60 * 24
     }
 }));
 
@@ -65,14 +65,15 @@ app.get('/connectGame', async (req, res) => {
     console.log(token);
     if (!token || !rooms.find(t => t === token)) {
         console.log("redirected");
-        res.redirect('/main')
+        res.render('html/main_page', {
+            tokenError: "No game with that token"
+        })
     } else {
         console.log("to the game");
         res.render('html/main')
     }
 
 })
-
 
 io.on('connection', (socket) => {
     console.log(`User ${socket.id}: Connected`)
