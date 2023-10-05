@@ -5,6 +5,7 @@ body {
 
 .window-wrp {
     display: grid;
+    grid-template-columns: 1fr 1fr;
     background-color: var(--window-bg-color);
     border-radius: 40px;
     height: 80%;
@@ -54,7 +55,7 @@ form {
     align-items: center;
     row-gap: 20px;
     padding: 40px 20px;
-    width: 300px;
+    width: auto;
 
     -webkit-box-shadow: 5px 5px 15px -5px rgba(0,0,0,0.75);
     -moz-box-shadow: 5px 5px 15px -5px rgba(0,0,0,0.75);

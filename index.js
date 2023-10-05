@@ -28,10 +28,11 @@ app.set('views', path.join(path.resolve(), `static`));
 app.use(express.json());
 app.use(express.static(path.join(path.resolve(), '/static')));
 app.use(express.urlencoded({extended: true}));
+app.use(cors());
 
 app.use(session({
     name: 'anech', secret: 'anech', resave: false, saveUninitialized: true, cookie: {
-        maxAge: 100000
+        oneDay: 1000 * 60 * 60 * 24
     }
 }));
 
@@ -56,14 +57,15 @@ app.get('/createGameToken', renderStartPage)
 app.post('/register', register)
 app.post('/login', login)
 
-
 app.post('/createGame', createGame)
 app.get('/connectGame', async (req, res) => {
     const token = req.query.token;
     console.log(token);
     if (!token || !rooms[token]) {
         console.log("redirected");
-        res.redirect('/main')
+        res.render('html/main_page', {
+            tokenError: "No game with that token"
+        })
     } else {
         console.log("to the game");
         res.render('html/main')
