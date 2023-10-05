@@ -14,13 +14,9 @@ export class ActionCard {
         this.card_img = card_img
     }
 
-    async get_all() {
-        const connection = connect()
-        let res
-        await connection.query("SELECT * FROM action_cards", (err, rows) => {
-            if (err) throw err
-            res = rows
-        })
-        return res
+    static async get_all() {
+        const connection = await connect()
+        const res = await connection.query("SELECT * FROM action_cards")
+        return res[0]
     }
 }
