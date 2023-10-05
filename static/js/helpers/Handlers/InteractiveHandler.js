@@ -64,5 +64,12 @@ export default class InteractiveHandler {
             this.scene.socket.emit('pressReady')
             this.hideButton()
         }
+
+        if (this.action === 'endturn') {
+            console.log(`Pressed ${this.action}`);
+            this.scene.socket.emit('endturn');
+            this.scene.myHand.blockHand();
+            this.scene.gameButton.hideButton();
+        }
     }
 }

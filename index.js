@@ -137,9 +137,16 @@ io.on('connection', (socket) => {
             if (rooms[value].playerB === socket.id)
                 rooms[value].playerBIsReady = true;
 
-            if (rooms[value].playerAIsReady && rooms[value].playerBIsReady)
+            if (rooms[value].playerAIsReady && rooms[value].playerBIsReady) {
                 io.to(value).emit('startMatch')
+                io.to(rooms[value].playerA).emit('yourturn')
+            }
+
         }
+    })
+
+    socket.on('endturn', () => {
+        socket.broadcast.to([...socket.rooms.values()][1]).emit('yourturn')
     })
 
 
