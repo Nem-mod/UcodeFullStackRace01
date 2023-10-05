@@ -33,6 +33,18 @@ export default class Game extends Phaser.Scene {
         this.load.image('h14', '../../assets/h14.jpg');
         this.load.image('h15', '../../assets/h15.jpg');
         this.load.image('h16', '../../assets/h16.jpg');
+
+        this.load.image('a1', '../../assets/a1.jpg');
+        this.load.image('a2', '../../assets/a2.jpg');
+        this.load.image('a3', '../../assets/a3.jpg');
+        this.load.image('a4', '../../assets/a4.jpg');
+        this.load.image('a5', '../../assets/a5.jpg');
+        this.load.image('a6', '../../assets/a6.jpg');
+        this.load.image('a7', '../../assets/a7.jpg');
+        this.load.image('a8', '../../assets/a8.jpg');
+        this.load.image('a9', '../../assets/a9.jpg');
+        this.load.image('a10', '../../assets/a10.jpg');
+
         this.load.image('cardBack', '../../assets/cardBack.jpg');
         this.load.image('hp', '../../assets/hp.png');
         this.load.image('punch', '../../assets/fist.png');

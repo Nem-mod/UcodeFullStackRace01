@@ -70,6 +70,7 @@ export default class Hand {
     }
 
     putCard(card) {
+        console.log(card);
         if (card.owner)
             card.owner.destroyCard(card);
 

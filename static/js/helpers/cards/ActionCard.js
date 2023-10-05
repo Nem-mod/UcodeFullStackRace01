@@ -30,6 +30,7 @@ export default class ActionCard extends Card {
     }
 
     setCardByData(data) {
+        console.log(data);
         this.strength = data.card_power;
         this.cardKey = data.card_img_url;
         this.action = data.card_action;
