@@ -12,6 +12,7 @@ import {connect} from "./db/db.js"
 import {readFileSync} from 'fs'
 import {Card} from "./models/CardModel.js";
 import {shuffle} from "./utils.js";
+import {ActionCard} from "./models/actionCardModel.js";
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -57,7 +58,7 @@ app.post('/login', login)
 
 
 let rooms = []
-let cards = await Card.get_all()
+let cards = [...(await Card.get_all()), ...(await ActionCard.get_all())]
 
 app.post('/createGame', createGame)
 app.get('/connectGame', async (req, res) => {
@@ -94,13 +95,20 @@ io.on('connection', (socket) => {
 
     socket.on('dealCards', async (data) => {
         const { cardAmount } = data;
-
         let deck = shuffle(cards);
 
         if (cardAmount < deck.length)
             socket.emit('dealCards', {deck: deck.slice(0, cardAmount)})
 
     })
+
+    socket.on('playCard', function (data) {
+        const {card, cardZoneId} = data
+        console.log(card);
+        socket.broadcast.to("room:1488").emit('playCard', {card: card, cardZoneId: cardZoneId-3 })
+
+    });
+
 });
 
 

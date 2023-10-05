@@ -49,15 +49,12 @@ export default class Game extends Phaser.Scene {
 
         this.gameField = new GameField(self, 6);
 
-        this.interactiveHandler = new InteractiveHandler(this);
         this.socketHandler = new SocketHandler(self);
+        this.interactiveHandler = new InteractiveHandler(this);
         this.roomHandler = new RoomHandler(self);
 
-        this.button = new GameButton(self);
-
-        this.button.showEndButton();
-
         // this.socket.emit('dealCards', {cardAmount: 6})
+        this.socket.emit('dealCards', {cardAmount: 12})
     }
 
     update() {}

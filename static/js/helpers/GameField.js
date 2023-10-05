@@ -36,7 +36,12 @@ export default class GameField {
     }
 
     addCard(card, index) {
+        console.log(this.fieldArr, index)
         this.fieldArr[index].placeCard(card);
+    }
+
+    removeCard(index) {
+        this.fieldArr[index].destroyCard();
     }
 
     getZoneIndex(zone) {
@@ -47,8 +52,7 @@ export default class GameField {
         return -1;
     }
 
-    removeCard(index) {
-        this.fieldArr[index].destroyCard();
-
+    getZoneByIndex(index) {
+        return this.fieldArr[index]
     }
 }

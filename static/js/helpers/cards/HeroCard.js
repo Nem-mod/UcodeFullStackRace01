@@ -89,4 +89,12 @@ export default class HeroCard extends Card{
 
         this.attackText.setPosition(this.attackText.x - (lenAfter - lenBefore) * 5, this.attackText.y);
     }
+
+    getCardData() {
+        return {
+            key: this.cardKey,
+            attack: this.attack,
+            hp: this.hp
+        }
+    }
 }
