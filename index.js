@@ -146,8 +146,14 @@ io.on('connection', (socket) => {
     })
 
     socket.on('endturn', () => {
+        const roomId = [...socket.rooms.values()][1];
+        if (socket.id === rooms[roomId].playerB)
+            io.in(roomId).emit('eval');
+
         socket.broadcast.to([...socket.rooms.values()][1]).emit('yourturn')
     })
+
+
 
 
 });

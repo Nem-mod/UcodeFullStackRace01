@@ -22,7 +22,6 @@ export default class SocketHandler {
 
         scene.socket.on('dealCards', (data) => {
             const {deck} = data
-            console.log(deck)
             deck.forEach(c => scene.myHand.putCard(getCardByData(scene, null, c)));
         })
 
@@ -42,6 +41,26 @@ export default class SocketHandler {
             scene.gameButton.showEndButton();
             scene.socket.emit('dealCards', {cardAmount: 6})
             scene.myHand.unblockHand();
+        })
+
+        scene.socket.on('eval', () => {
+            let cards = scene.gameField.getCards();
+            for (let i = 0; i <= 2; i++) {
+                if (!cards[i] && !cards[i+3])
+                    continue
+                let f1 = cards[i].hp - cards[i+3].attack;
+                let f2 = cards[i+3].hp - cards[i].attack;
+
+                if (!f1 || f1 <= 0)
+                    cards[i].destroyCard()
+                else
+                    cards[i].addHp(-f1)
+
+                if (!f2 || f2 <= 0)
+                    cards[i+3].destroyCard()
+                else
+                    cards[i+3].addHp(-f2)
+            }
         })
     }
 }

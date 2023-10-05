@@ -36,7 +36,6 @@ export class ActionCard {
                 card_img: e.card_img
             }
         })
-        console.log(res)
         return res;
     }
 }
