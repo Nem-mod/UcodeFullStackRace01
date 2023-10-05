@@ -2,6 +2,7 @@ import express from 'express'
 import http from 'http'
 import {Server} from 'socket.io'
 import path from "path";
+import cors from "cors";
 import expressThymeleaf from 'express-thymeleaf';
 import {TemplateEngine} from 'thymeleaf';
 import session from "express-session";
@@ -17,7 +18,11 @@ import {ActionCard} from "./models/actionCardModel.js";
 const PORT = process.env.PORT || 3001;
 const app = express();
 const server = http.createServer(app)
-const io = new Server(server)
+const io = new Server(server, {
+    cors: {
+        origin: "http://www.localhost:3001"
+    }
+});
 
 const templateEngine = new TemplateEngine();
 
@@ -28,6 +33,7 @@ app.set('views', path.join(path.resolve(), `static`));
 app.use(express.json());
 app.use(express.static(path.join(path.resolve(), '/static')));
 app.use(express.urlencoded({extended: true}));
+app.use(cors());
 
 app.use(session({
     name: 'anech', secret: 'anech', resave: false, saveUninitialized: true, cookie: {
